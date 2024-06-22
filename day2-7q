@@ -1,0 +1,15 @@
+import cv2
+import numpy as np
+
+# Read the image
+image = cv2.imread('C:\Users\jashw\OneDrive\Pictures\Screenshots\Screenshot 2024-06-22 083158.png')
+
+# Create a watermark (for example, text)
+watermark = np.zeros_like(image)
+cv2.putText(watermark, 'Watermark', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+
+# Combine the watermark with the original image
+watermarked_image = cv2.addWeighted(image, 1, watermark, 0.3, 0)
+
+# Save the result
+cv2.imwrite('watermarked_image.jpg', watermarked_image)
