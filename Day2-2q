@@ -1,0 +1,16 @@
+import cv2
+import numpy as np
+
+# Read the image
+image = cv2.imread('"C:\Users\jashw\OneDrive\Pictures\Screenshots\Screenshot 2024-06-22 083158.png"', cv2.IMREAD_GRAYSCALE)
+
+# Apply Sobel edge detection
+sobelx = cv2.Sobel(image, cv2.CV_64F, 1, 0, ksize=3)
+sobely = cv2.Sobel(image, cv2.CV_64F, 0, 1, ksize=3)
+sobel = cv2.magnitude(sobelx, sobely)
+
+# Convert to uint8
+sobel = np.uint8(np.absolute(sobel))
+
+# Save the result
+cv2.imwrite('sobel_edge.jpg', sobel)
