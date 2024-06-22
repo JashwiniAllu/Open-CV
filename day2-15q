@@ -1,0 +1,10 @@
+import cv2
+
+# Read the image
+image = cv2.imread(r"C:\Users\jashw\OneDrive\Pictures\Screenshots\Screenshot 2024-06-22 083158.png", cv2.IMREAD_GRAYSCALE)
+
+# Apply simple thresholding
+_, thresholded_image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+
+# Save the result
+cv2.imwrite('thresholded_image.jpg', thresholded_image)
