@@ -1,0 +1,21 @@
+
+import cv2
+import numpy as np
+
+# Read the image
+image = cv2.imread('C:\Users\jashw\OneDrive\Pictures\Screenshots\Screenshot 2024-06-22 083158.png', cv2.IMREAD_GRAYSCALE)
+
+# Define the Prewitt kernels
+kernelx = np.array([[1, 0, -1], [1, 0, -1], [1, 0, -1]], dtype=int)
+kernely = np.array([[1, 1, 1], [0, 0, 0], [-1, -1, -1]], dtype=int)
+
+# Apply Prewitt edge detection
+prewittx = cv2.filter2D(image, cv2.CV_16S, kernelx)
+prewitty = cv2.filter2D(image, cv2.CV_16S, kernely)
+prewitt = cv2.magnitude(prewittx, prewitty)
+
+# Convert to uint8
+prewitt = np.uint8(np.absolute(prewitt))
+
+# Save the result
+cv2.imwrite('prewitt_edge.jpg', prewitt)
