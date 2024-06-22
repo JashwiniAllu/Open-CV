@@ -1,0 +1,18 @@
+import cv2
+
+# Read the image
+image = cv2.imread(r"C:\Users\jashw\OneDrive\Pictures\Screenshots\Screenshot 2024-06-22 083158.png")
+')
+
+# Convert the image to grayscale
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Get the image dimensions
+height, width = gray_image.shape
+
+# Mirror the lower half to the upper half
+mirrored_image = gray_image.copy()
+mirrored_image[:height//2, :] = gray_image[height//2:, :]
+
+# Save the result
+cv2.imwrite('mirrored_image.jpg', mirrored_image)
