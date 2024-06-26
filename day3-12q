@@ -1,0 +1,36 @@
+import cv2
+import numpy as np
+
+def compute_depth_map(imgL_path, imgR_path):
+    imgL = cv2.imread(imgL_path, 0)
+    imgR = cv2.imread(imgR_path, 0)
+    
+    # Stereo BM
+    stereoBM = cv2.StereoBM_create(numDisparities=16, blockSize=15)
+    disparityBM = stereoBM.compute(imgL, imgR)
+    
+    # Stereo SGBM
+    stereoSGBM = cv2.StereoSGBM_create(minDisparity=0,
+                                        numDisparities=16,
+                                        blockSize=3,
+                                        P1=8 * 3 * 3**2,
+                                        P2=32 * 3 * 3**2,
+                                        disp12MaxDiff=1,
+                                        uniquenessRatio=10,
+                                        speckleWindowSize=100,
+                                        speckleRange=32)
+    disparitySGBM = stereoSGBM.compute(imgL, imgR)
+    
+    # Normalize disparity maps for display
+    disparityBM = cv2.normalize(disparityBM, disparityBM, alpha=255, beta=0, norm_type=cv2.NORM_MINMAX)
+    disparityBM = np.uint8(disparityBM)
+    disparitySGBM = cv2.normalize(disparitySGBM, disparitySGBM, alpha=255, beta=0, norm_type=cv2.NORM_MINMAX)
+    disparitySGBM = np.uint8(disparitySGBM)
+    
+    return disparityBM, disparitySGBM
+
+disparityBM, disparitySGBM = compute_depth_map('left.jpg', 'right.jpg')
+cv2.imshow('Disparity BM', disparityBM)
+cv2.imshow('Disparity SGBM', disparitySGBM)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
