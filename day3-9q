@@ -1,0 +1,7 @@
+import cv2
+
+img = cv2.imread('input.jpg')
+shifted = cv2.pyrMeanShiftFiltering(img, 21, 51)
+cv2.imshow('Mean Shift Segmentation', shifted)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
